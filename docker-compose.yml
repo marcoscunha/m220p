@@ -1,0 +1,29 @@
+
+version: '3.7'
+
+services:
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: always
+        command: python run.py
+        volumes:
+            - ./M220P:/usr/src/mflix
+        depends_on:
+            - db
+        ports:
+            - 5000:5000
+
+    db:
+        image: mongo:4.4-bionic
+        restart: always
+        ports:
+            - 27017:27017
+        volumes:
+            - ./samples:/opt/
+            - volume-db:/var/lib/mongodb/data
+
+volumes:
+    volume-db:
+        name: mflix-volume-db
